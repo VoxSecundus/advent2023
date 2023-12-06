@@ -11,10 +11,9 @@ NUMBERS = [
   'nine'
 ]
 
-inputs = File.read('./input').split("\n")
 
 def part_one(inputs)
-  inputs.inject(0) do |x, input|
+  inputs.split("\n").inject(0) do |x, input|
     stripped = input.tr('^0-9', '')
     digits = stripped[0] + stripped[-1]
     digits.to_i + x
@@ -24,7 +23,7 @@ end
 def part_two(inputs)
   exp = Regexp.new("(?=(#{NUMBERS.join('|')}))")
 
-  inputs.inject(0) do |x, input|
+  inputs.split("\n").inject(0) do |x, input|
     nums = input.scan(exp).compact
     nums = [nums.first, nums.last].flatten
 
@@ -34,5 +33,11 @@ def part_two(inputs)
   end
 end
 
-puts "Part 1: #{part_one(inputs)}"
-puts "Part 2: #{part_two(inputs)}"
+INPUT = File.read(File.join(File.dirname(__FILE__), 'input'))
+
+starting = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+puts "Part 1: #{part_one(INPUT)}"
+puts "Part 2: #{part_two(INPUT)}"
+ending = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+elapsed = ending - starting
+puts "Elapsed: #{elapsed}"
